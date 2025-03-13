@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wave PQ Messaging</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      width: 450px;
+      min-height: 600px;
+      background: linear-gradient(135deg, #121212, #1a1a2e);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 20px;
+      text-align: center;
+      background: #0f0f1a;
+      border-bottom: 2px solid #4a90e2;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      color: #4a90e2;
+    }
+    header .tagline {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 4px;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      background: #0d0d14;
+      border-bottom: 1px solid #4a90e2;
+      justify-content: space-between;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li {
+      margin: 0;
+    }
+    nav ul li a {
+      display: block;
+      padding: 12px 20px;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: #4a90e2;
+    }
+    .nav-right {
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .user-label {
+      font-size: 0.9em;
+      color: #ccc;
+    }
+    .logout-btn {
+      background: #e23e3e;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .logout-btn:hover {
+      background: #ff4141;
+      box-shadow: 0 0 15px #ff4141;
+    }
+    main {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    section {
+      background: #1b1b2f;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    section.active {
+      display: block;
+    }
+    section h2, section h3 {
+      margin-top: 0;
+    }
+    input, select, textarea {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #4a90e2;
+      background: #12121d;
+      color: #ffffff;
+    }
+    /* Increase message input size */
+    .message-input input {
+      font-size: 16px;
+      height: 40px;
+    }
+    button {
+      background: linear-gradient(135deg, #4a90e2, #7b61ff);
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: 0.3s;
+      width: 90%;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      box-shadow: 0 0 15px #7b61ff;
+    }
+    .button.danger {
+      background: linear-gradient(135deg, #e23e3e, #ff4141);
+    }
+    .button.danger:hover {
+      box-shadow: 0 0 15px #ff4141;
+    }
+    .divider {
+      color: #888;
+      font-size: 12px;
+      margin: 15px 0;
+    }
+    .chat-box {
+      background: #12121d;
+      padding: 15px;
+      border-radius: 10px;
+      height: 300px;
+      overflow-y: auto;
+      text-align: left;
+      margin: 10px auto;
+      width: 90%;
+    }
+    .message {
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 5px;
+      color: #fff;
+    }
+    .sent {
+      background: linear-gradient(135deg, #4a90e2, #7b61ff);
+      text-align: right;
+    }
+    .received {
+      background: linear-gradient(135deg, #232345, #2a2a5a);
+      text-align: left;
+    }
+    .timestamp {
+      display: block;
+      font-size: 0.8em;
+      color: #999;
+      margin-top: 2px;
+    }
+    .message-input {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Wave PQ Messaging</h1>
+    <p class="tagline">Powered by Flux Capacitors</p>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="#" id="tab-contacts" class="nav-link active">Contacts</a></li>
+      <li><a href="#" id="tab-chat" class="nav-link">Chat</a></li>
+      <li><a href="#" id="tab-settings" class="nav-link">Settings</a></li>
+    </ul>
+    <div class="nav-right">
+      <span class="user-label" id="user-label"></span>
+      <a href="#" id="logout-btn" class="logout-btn">Logout</a>
+    </div>
+  </nav>
+  <main>
+    <!-- Auth (Login/Register) -->
+    <section id="auth-container" class="active">
+      <h2>Login</h2>
+      <input type="text" id="login-username" placeholder="Username">
+      <input type="password" id="login-password" placeholder="Password">
+      <button id="login-btn">Login</button>
+      <p class="divider">or</p>
+      <h2>Register</h2>
+      <input type="text" id="reg-username" placeholder="New Username">
+      <input type="password" id="reg-password" placeholder="New Password">
+      <button id="register-btn">Register</button>
+    </section>
+
+    <!-- Contacts -->
+    <section id="contacts-container">
+      <h2>Contacts</h2>
+      <div>
+        <!-- Enter the contact's base64 public key and a label -->
+        <input type="text" id="contact-public-key" placeholder="Contact's Public Key (Base64)">
+        <input type="text" id="contact-nickname" placeholder="Contact's Label">
+        <button id="add-contact-btn">Add Contact</button>
+      </div>
+      <h3>Your Contacts</h3>
+      <div id="contacts"></div>
+    </section>
+
+    <!-- Chat -->
+    <section id="chat-container">
+      <h2>Chat</h2>
+      <label for="contact-select">Select a contact:</label>
+      <select id="contact-select">
+        <option value="">Select a contact...</option>
+      </select>
+      <div id="messages" class="chat-box"></div>
+      <div class="message-input">
+        <input type="text" id="message-text" placeholder="Type a message...">
+        <button id="send-message-btn">Send</button>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section id="settings-container">
+      <h2>Settings</h2>
+      <h3>Your Public Key</h3>
+      <textarea id="public-key-display" readonly></textarea>
+      <button id="copy-key-btn">Copy Public Key</button>
+      <h3>Account Management</h3>
+      <button id="cancel-account-btn" class="button danger">Delete Account</button>
+    </section>
+  </main>
+  <!-- Load popup.js as a module so we can import liboqs -->
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
